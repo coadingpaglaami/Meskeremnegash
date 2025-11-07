@@ -1,0 +1,270 @@
+"use client";
+
+import { useState, useRef, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { Eye, EyeOff, Mail, Lock } from "lucide-react";
+import { toast } from "sonner";
+
+// ----------------------------
+// Zod Schemas
+// ----------------------------
+const forgotPasswordSchema = z.object({
+  email: z.string().email("Invalid email").min(1, "Email is required"),
+});
+
+const resetPasswordSchema = z
+  .object({
+    password: z.string().min(6, "Password must be at least 6 characters"),
+    confirmPassword: z.string().min(1, "Confirm your password"),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
+
+// ----------------------------
+// Types
+// ----------------------------
+type ForgotForm = z.infer<typeof forgotPasswordSchema>;
+type ResetForm = z.infer<typeof resetPasswordSchema>;
+
+// ----------------------------
+// Component
+// ----------------------------
+export const ForgotPassword = () => {
+  // ---------------------------- States ----------------------------
+  const [step, setStep] = useState<"forgot" | "verify" | "reset">("forgot");
+  const [email, setEmail] = useState("");
+  const [otp, setOtp] = useState<string[]>(Array(6).fill(""));
+  const otpRefs = useRef<Array<HTMLInputElement | null>>([]);
+  const [timer, setTimer] = useState(60);
+  const [canResend, setCanResend] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+
+  // ---------------------------- Forms ----------------------------
+  const {
+    register: registerEmail,
+    handleSubmit: handleSubmitEmail,
+    formState: { errors: errorsEmail },
+    watch: watchEmail,
+  } = useForm<ForgotForm>({
+    resolver: zodResolver(forgotPasswordSchema),
+  });
+
+  const {
+    register: registerReset,
+    handleSubmit: handleSubmitReset,
+    formState: { errors: errorsReset },
+    watch: watchReset,
+  } = useForm<ResetForm>({
+    resolver: zodResolver(resetPasswordSchema),
+  });
+
+  // ---------------------------- Timer for OTP ----------------------------
+  useEffect(() => {
+    let interval: ReturnType<typeof setInterval>;
+    if (step === "verify" && timer > 0) {
+      interval = window.setInterval(() => setTimer((t) => t - 1), 1000);
+    } else if (timer === 0) {
+      setCanResend(true);
+    }
+
+    return () => {
+      if (interval) window.clearInterval(interval);
+    };
+  }, [step, timer]);
+
+  // ---------------------------- Handlers ----------------------------
+  const onSubmitEmail = (data: ForgotForm) => {
+    setEmail(data.email);
+    toast.success("OTP sent to your email (demo)");
+    setStep("verify");
+    setTimer(60);
+    setCanResend(false);
+  };
+
+  const onResend = () => {
+    toast.success("OTP resent (demo)");
+    setOtp(Array(6).fill(""));
+    setTimer(60);
+    setCanResend(false);
+  };
+
+  const onSubmitOTP = () => {
+    if (otp.some((d) => d === "")) return; // All boxes required
+    toast.success("OTP verified (demo)");
+    setStep("reset");
+  };
+
+  const onSubmitReset = (data: ResetForm) => {
+    toast.success("Password reset successful (demo)");
+    console.log("New password:", data.password);
+  };
+
+  // ---------------------------- Render ----------------------------
+  return (
+    <div className="flex flex-col gap-6 w-full max-w-md mx-auto text-white">
+      {step === "forgot" && (
+        <>
+          <h2 className="text-2xl font-semibold text-center">Forgot Password</h2>
+          <p className="text-gray-300 text-center mb-4">
+            Enter your email address
+          </p>
+
+          <form onSubmit={handleSubmitEmail(onSubmitEmail)} className="flex flex-col gap-4">
+            <div className="flex flex-col gap-2">
+              <label htmlFor="email">Email</label>
+              <div className="flex items-center gap-2 border border-gray-400 rounded-lg px-3 py-2">
+                <Mail className="w-5 h-5 text-gray-400" />
+                <input
+                  id="email"
+                  type="email"
+                  placeholder="Enter your email"
+                  {...registerEmail("email")}
+                  className="w-full bg-transparent outline-none text-white placeholder:text-gray-400"
+                />
+              </div>
+              {errorsEmail.email && (
+                <p className="text-red-400 text-sm">{errorsEmail.email.message}</p>
+              )}
+            </div>
+
+            <button
+              type="submit"
+              disabled={!watchEmail("email")}
+              className={`mt-2 px-4 py-2 rounded-lg ${
+                watchEmail("email") ? "bg-primary text-white" : "bg-gray-500 text-gray-200 cursor-not-allowed"
+              }`}
+            >
+              Continue
+            </button>
+          </form>
+        </>
+      )}
+
+      {step === "verify" && (
+        <>
+          <h2 className="text-2xl font-semibold text-center">Verify OTP</h2>
+          <p className="text-gray-300 text-center">
+            We sent a 6-digit code to <br /> <span className="font-semibold">{email}</span>
+          </p>
+
+          <div className="flex justify-between mt-4">
+            {otp.map((value, i) => (
+              <input
+                key={i}
+                type="text"
+                maxLength={1}
+                value={otp[i]}
+                onChange={(e) => {
+                  const val = e.target.value.replace(/\D/, "");
+                  const newOtp = [...otp];
+                  newOtp[i] = val;
+                  setOtp(newOtp);
+                  if (val && otpRefs.current[i + 1]) otpRefs.current[i + 1]?.focus();
+                }}
+                ref={(el: HTMLInputElement | null) => {
+                  otpRefs.current[i] = el;
+                }}
+                className="w-12 h-12 text-center rounded border border-gray-500 focus:border-primary focus:outline-none text-black"
+              />
+            ))}
+          </div>
+
+          <button
+            onClick={onSubmitOTP}
+            disabled={otp.some((d) => d === "")}
+            className={`mt-4 px-4 py-2 rounded-lg ${
+              otp.some((d) => d === "") ? "bg-gray-500 text-gray-200 cursor-not-allowed" : "bg-primary text-white"
+            }`}
+          >
+            Continue
+          </button>
+
+          <button
+            disabled={!canResend}
+            onClick={onResend}
+            className={`mt-2 px-4 py-2 rounded-lg border border-white ${
+              canResend ? "text-white" : "text-gray-400 pointer-events-none"
+            }`}
+          >
+            {canResend ? "Resend Code" : `Resend in 00:${timer.toString().padStart(2, "0")}`}
+          </button>
+        </>
+      )}
+
+      {step === "reset" && (
+        <>
+          <h2 className="text-2xl font-semibold text-center">Create New Password</h2>
+
+          <form onSubmit={handleSubmitReset(onSubmitReset)} className="flex flex-col gap-4">
+            {/* New Password */}
+            <div className="flex flex-col gap-2 relative">
+              <label htmlFor="password">New Password</label>
+              <div className="flex items-center gap-2 border border-gray-400 rounded-lg px-3 py-2">
+                <Lock className="w-5 h-5 text-gray-400" />
+                <input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Enter new password"
+                  {...registerReset("password")}
+                  className="w-full bg-transparent outline-none text-white placeholder:text-gray-400"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  className="text-gray-400 hover:text-white"
+                >
+                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                </button>
+              </div>
+              {errorsReset.password && (
+                <p className="text-red-400 text-sm">{errorsReset.password.message}</p>
+              )}
+            </div>
+
+            {/* Confirm Password */}
+            <div className="flex flex-col gap-2 relative">
+              <label htmlFor="confirmPassword">Confirm Password</label>
+              <div className="flex items-center gap-2 border border-gray-400 rounded-lg px-3 py-2">
+                <Lock className="w-5 h-5 text-gray-400" />
+                <input
+                  id="confirmPassword"
+                  type={showConfirm ? "text" : "password"}
+                  placeholder="Confirm new password"
+                  {...registerReset("confirmPassword")}
+                  className="w-full bg-transparent outline-none text-white placeholder:text-gray-400"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirm((prev) => !prev)}
+                  className="text-gray-400 hover:text-white"
+                >
+                  {showConfirm ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                </button>
+              </div>
+              {errorsReset.confirmPassword && (
+                <p className="text-red-400 text-sm">{errorsReset.confirmPassword.message}</p>
+              )}
+            </div>
+
+            <button
+              type="submit"
+              disabled={!watchReset("password") || !watchReset("confirmPassword")}
+              className={`mt-4 px-4 py-2 rounded-lg ${
+                watchReset("password") && watchReset("confirmPassword")
+                  ? "bg-primary text-white"
+                  : "bg-gray-500 text-gray-200 cursor-not-allowed"
+              }`}
+            >
+              Continue
+            </button>
+          </form>
+        </>
+      )}
+    </div>
+  );
+};
