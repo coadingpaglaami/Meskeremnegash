@@ -1,3 +1,4 @@
+
 import {
   Plane,
   MessageCircle,
@@ -29,6 +30,11 @@ export const carrierLink = [
     href: "/earnings",
     icon: DollarSign, // 💰 earnings
   },
+  {
+    label:'Verification',
+    href:'/verification',
+    icon: UserCog
+  }
 ];
 
 export const senderLink = [

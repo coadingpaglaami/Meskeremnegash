@@ -1,3 +1,4 @@
+'use client';
 // utils/auth.ts
 export const setUserRole = (role: "admin" | "carrier" | "sender" | string) => {
   localStorage.setItem("userRole", role);

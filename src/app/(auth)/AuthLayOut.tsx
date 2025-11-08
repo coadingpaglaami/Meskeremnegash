@@ -77,7 +77,7 @@ export default function AuthLayout({
   const isChooseUserPage = pathname.includes("choose-user");
 
   return (
-    <div className="relative w-full h-screen">
+    <div className="relative w-full h-screen font-montserrat">
       {/* Background Image */}
       <Image
         src="/landing/hero.jpg"
@@ -88,7 +88,7 @@ export default function AuthLayout({
       />
 
       {!isChooseUserPage ? (
-        <div className="relative z-10 flex flex-col md:flex-row h-full text-white">
+        <div className="relative z-10 flex flex-col md:flex-row h-full text-white ">
           {/* Main container scales with screen */}
           <div className="flex flex-col md:flex-row w-full h-full md:justify-between px-6 md:px-12 lg:px-16">
             {/* Left Section - Form */}
