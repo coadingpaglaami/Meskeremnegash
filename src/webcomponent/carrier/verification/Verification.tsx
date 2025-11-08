@@ -3,8 +3,10 @@
 import { HeadingSection } from "@/webcomponent/reusable/HeadingSection";
 import { CheckCircle, CheckCircle2, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 export const Verification = () => {
+  const router = useRouter();
   const verificationDAta = [
     {
       id: 1,
@@ -79,7 +81,7 @@ export const Verification = () => {
       </div>
 
       {/* Start Verification Button */}
-      <Button className="mt-4 w-fit self-center" size="lg">
+      <Button className="mt-4 w-fit self-center" size="lg" onClick={()=>router.push('/verification/personal')}>
         Start Verification
       </Button>
     </div>

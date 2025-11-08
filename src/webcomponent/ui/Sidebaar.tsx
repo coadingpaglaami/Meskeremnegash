@@ -43,7 +43,8 @@ export const SideBaar = () => {
       <nav className="flex flex-col gap-2">
         {links.map((item) => {
           const Icon = item.icon;
-          const isActive = pathname === item.href;
+          const isActive =
+            pathname === item.href || pathname.startsWith(`${item.href}/`);
 
           return (
             <Link
@@ -57,9 +58,7 @@ export const SideBaar = () => {
                 }`}
             >
               <Icon
-                className={`w-5 h-5 ${
-                  isActive ? "text-white" : "text-black"
-                }`}
+                className={`w-5 h-5 ${isActive ? "text-white" : "text-black"}`}
               />
               <span className="font-medium text-sm">{item.label}</span>
             </Link>

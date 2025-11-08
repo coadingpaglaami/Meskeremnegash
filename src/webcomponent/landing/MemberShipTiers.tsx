@@ -52,7 +52,7 @@ export const MemberShipTiers = () => {
   ];
 
   return (
-    <div className="bg-[#253D2C] py-16 px-6">
+    <div className="bg-[#253D2C] py-16 px-6 font-montserrat">
       {/* Header */}
       <h2 className="text-white text-4xl md:text-5xl font-bold text-center mb-12">
         Membership Tiers

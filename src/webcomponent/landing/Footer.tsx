@@ -18,7 +18,7 @@ export const Footer = () => {
   ];
 
   return (
-    <footer className="bg-white text-black px-6 pt-20">
+    <footer className="bg-white text-black px-6 pt-20 font-montserrat tracking-tighter">
       <div className=" ">
         {/* First Section */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">

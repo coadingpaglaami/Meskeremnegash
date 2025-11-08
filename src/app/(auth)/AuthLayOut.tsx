@@ -88,7 +88,7 @@ export default function AuthLayout({
       />
 
       {!isChooseUserPage ? (
-        <div className="relative z-10 flex flex-col md:flex-row h-full text-white ">
+        <div className="relative z-10 flex flex-col md:flex-row h-full text-white font-montserrat">
           {/* Main container scales with screen */}
           <div className="flex flex-col md:flex-row w-full h-full md:justify-between px-6 md:px-12 lg:px-16">
             {/* Left Section - Form */}

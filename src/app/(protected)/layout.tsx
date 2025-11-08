@@ -19,7 +19,7 @@ export default function ProtectedLayout({ children }: { children: ReactNode }) {
         </header>
 
         {/* Scrollable children */}
-        <main className="flex-1 overflow-auto bg-gray-50 max-md:px-4">
+        <main className="flex-1 overflow-auto bg-gray-50 max-md:px-4 font-montserrat">
           {children}
         </main>
       </div>

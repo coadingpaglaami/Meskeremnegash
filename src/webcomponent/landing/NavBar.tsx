@@ -25,7 +25,7 @@ export const Navbar = () => {
   };
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-40 h-20 backdrop-blur-[30px] bg-white/10 border-b border-white/10">
+    <nav className="fixed top-0 left-0 w-full z-40 h-20 backdrop-blur-[30px] bg-white/10 border-b border-white/10 font-montserrat">
       <div className="flex justify-between items-center p-4 h-full">
         {/* Left: Logo */}
         <Link href="/" className="flex justify-start gap-2">

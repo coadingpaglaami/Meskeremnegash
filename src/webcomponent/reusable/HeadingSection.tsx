@@ -1,6 +1,8 @@
+import { ReactNode } from "react";
+
 interface HeadingSectionProps {
   heading: string;
-  subheading?: string;
+  subheading?: string | ReactNode;
 }
 
 export const HeadingSection = ({

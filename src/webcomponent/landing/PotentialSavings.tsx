@@ -13,7 +13,7 @@ const data = [
 ];
 
   return (
-    <div className="flex flex-col gap-10 p-6 py-20">
+    <div className="flex flex-col gap-10 p-6 py-20 font-montserrat">
       {/* Header Section */}
       <div className="flex flex-col md:flex-row justify-center items-center gap-6">
         <Image src="/landing/image 3.png" alt="Savings Image" width={100} height={100} />

@@ -25,7 +25,7 @@ export const HeroSection = () => {
   return (
     <div>
         {/* Content container */}
-        <div className="flex flex-col relative  md:h-screen" style={{ backgroundImage: "url('/landing/hero.jpg')", backgroundSize: 'cover', backgroundPosition: 'center' }}>
+        <div className="flex flex-col relative  md:h-screen font-montserrat" style={{ backgroundImage: "url('/landing/hero.jpg')", backgroundSize: 'cover', backgroundPosition: 'center' }}>
         <div className="absolute top-0 left-0 w-full h-full bg-black/40 z-10"/>
         <div className=" relative z-20 py-20 mt-20 flex flex-col justify-between gap-5 h-full">
           {/* 1st child - Welcome Text */}
