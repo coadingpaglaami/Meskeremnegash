@@ -7,6 +7,7 @@ import {
   CheckCircle,
   UserCog,
   FileText,
+  Search,
 } from "lucide-react";
 
 export const carrierLink = [
@@ -41,7 +42,7 @@ export const senderLink = [
   {
     label: "Find Travelers",
     href: "/find-travelers",
-    icon: MessageCircle, // 💬 similar message/search connection
+    icon: Search, // 💬 similar message/search connection
   },
   {
     label: "Delivery History",

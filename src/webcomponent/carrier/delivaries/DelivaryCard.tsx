@@ -13,7 +13,7 @@ export const DeliveryCard = ({ data }: DeliveryCardProps) => {
   // Status colors based on condition
 
 
-  const currentStyle = statusStyles[status];
+  const currentStyle = statusStyles[status!==undefined?status:"pending"];
 
   return (
     <div className="flex flex-col gap-2 ">
