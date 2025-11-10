@@ -95,6 +95,12 @@ export const SignIn = () => {
           {errors.password && (
             <p className="text-red-400 text-sm">{errors.password.message}</p>
           )}
+          <Link
+            href="/forgot-password"
+            className="self-end text-sm text-primary hover:underline mt-1"
+          >
+            Forgot password?
+          </Link>
         </div>
 
         <Button type="submit" disabled={isSubmitting} className="w-full">
@@ -104,7 +110,7 @@ export const SignIn = () => {
 
       <div className="text-center text-sm mt-4">
         Don’t have an account?{" "}
-        <Link href="/auth/signup" className="text-primary hover:underline">
+        <Link href="/auth/choose-user" className="text-primary hover:underline">
           Sign up
         </Link>
       </div>

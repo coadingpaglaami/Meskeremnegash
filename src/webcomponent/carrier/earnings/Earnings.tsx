@@ -1,3 +1,4 @@
+'use client';
 import { HeadingSection } from "@/webcomponent/reusable/HeadingSection";
 import { EarningCard } from "./EarningCard";
 import { TripEarnigsTable } from "./TripEarnigsTable";
