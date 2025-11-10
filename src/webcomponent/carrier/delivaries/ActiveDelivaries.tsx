@@ -7,6 +7,8 @@ import { HeadingSection } from "@/webcomponent/reusable/HeadingSection";
 import { DeliveryCard } from "./DelivaryCard";
 import { AcceptDeliveryDialog } from "./AcceptDeliveryDialog";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+
 export const ActiveDelivaries = () => {
   const activeDelivaries: DelivaryData[] = deliveryData.filter(
     (delivery) => delivery.status === "in-progress"
@@ -23,6 +25,8 @@ export const ActiveDelivaries = () => {
 
   const handleReject = (delivery: DelivaryData) => {
     console.log("Rejected:", delivery);
+    toast.success("Rejected the delivery");  
+    setOpenDialog(false);
   };
 
   return (

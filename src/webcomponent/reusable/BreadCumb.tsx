@@ -7,7 +7,7 @@ interface MathItem {
 
 interface BreadcrumbProps {
   title: string;
-  subtitle: string;
+  subtitle?: string;
   math: MathItem[];
 }
 
@@ -20,15 +20,17 @@ export const Breadcrumb = ({ title, subtitle, math }: BreadcrumbProps) => {
           <BarChart3Icon className="w-6 h-6 text-white" />
           <h2 className="text-xl font-semibold">{title}</h2>
         </div>
-        <p className="text-sm opacity-80">{subtitle}</p>
+        {subtitle && <p className="text-sm opacity-80">{subtitle}</p>}
       </div>
 
       {/* Bottom Section (Metrics) */}
-      <div className="grid grid-cols-4 sm:grid-cols-2 gap-4">
+      <div className="grid md:grid-cols-4 sm:grid-cols-2 max-sm:gri gap-4">
         {math.map((item, index) => (
           <div key={index} className="flex flex-col items-start">
             <span className="text-2xl font-semibold">{item.mhki}</span>
-            <span className="text-sm opacity-80 line-clamp-1">{item.mhki_subtitle}</span>
+            <span className="text-sm opacity-80 line-clamp-1">
+              {item.mhki_subtitle}
+            </span>
           </div>
         ))}
       </div>

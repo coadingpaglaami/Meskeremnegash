@@ -1,3 +1,5 @@
+import { FindTravellers } from "@/webcomponent/sender";
+
 export default function FindTravelersPage() {
-    return <div>Find Travelers Page</div>;
-};
+  return <FindTravellers />;
+}

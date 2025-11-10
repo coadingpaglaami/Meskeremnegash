@@ -1,3 +1,5 @@
+import { DelivaryHistory } from "@/webcomponent/sender";
+
 export default function DelivaryHistoryPage() {
-    return <div>Delivery History Page</div>;
-};
+  return <DelivaryHistory />;
+}

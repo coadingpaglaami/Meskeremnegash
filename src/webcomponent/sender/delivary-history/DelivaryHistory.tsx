@@ -1,35 +1,23 @@
-"use client";
-import { HeadingSection } from "@/webcomponent/reusable/HeadingSection";
-import { Button } from "@/components/ui/button";
 import { activeDelivaryData } from "@/lib/activeDelivaryData";
+import { Breadcrumb } from "@/webcomponent/reusable";
 import { SenderCard } from "../card";
-import {
-  Dialog,
-  DialogContent,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 import { SenderDilogCard } from "../card/DilogCard";
-export const SenderActiveDelivaries = () => {
+
+export const DelivaryHistory = () => {
   return (
-    <div className="py-16 flex flex-col gap-6 md:px-6 px-4">
-      <HeadingSection
-        heading="Active Deliveries"
-        subheading="See all active deliveries"
+    <div className="md:px-6 py-4 px-4">
+      <Breadcrumb
+        title="Total Completed Deliveries"
+        math={[
+          { mhki: 3, mhki_subtitle: "Deliveries" },
+          { mhki: "$150", mhki_subtitle: "Total Spent" },
+        ]}
       />
-      <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">
-        {activeDelivaryData.map(
-          ({
-            senderId,
-            name,
-            senderPrice,
-            senderProfileStatus,
-            senderWeight,
-            tripData,
-            delivarystatus,
-            contactInfo,
-            email,
-          }) => (
-            <div
+      <div className="grid md:grid-cols-3 sm:grid-cols-2 gap-4 py-4 ">
+        {activeDelivaryData.slice(3,5).map(({name, tripData, senderWeight, senderPrice, delivarystatus, senderId,contactInfo,email})=>(
+                 <div
               key={senderId}
               className="flex flex-col gap-2 border rounded-2xl p-4 shadow-sm hover:shadow-md transition-all "
             >
@@ -40,7 +28,7 @@ export const SenderActiveDelivaries = () => {
                 name={name}
                 weight={senderWeight || 0}
                 price={senderPrice || 0}
-                status={senderProfileStatus || ""}
+                status={delivarystatus || ""}
                 note={tripData.note}
               />
               <div className="flex gap-2 justify-center">
@@ -65,8 +53,8 @@ export const SenderActiveDelivaries = () => {
                 </Dialog>
               </div>
             </div>
-          )
-        )}
+            
+        ))}
       </div>
     </div>
   );

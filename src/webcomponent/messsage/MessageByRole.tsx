@@ -5,5 +5,5 @@ import { CarrierMessage } from "../carrier/message/CarrierMessage";
 
 export const MessageByRole =()=>{
 const role =getUserRole();
-return (<>{role === 'carrier' ? <CarrierMessage/>:''}</>)
+return (<>{role === 'carrier' || role==='sender' ? <CarrierMessage/>:''}</>)
 };

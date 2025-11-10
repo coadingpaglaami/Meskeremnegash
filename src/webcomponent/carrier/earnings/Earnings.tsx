@@ -2,6 +2,31 @@ import { HeadingSection } from "@/webcomponent/reusable/HeadingSection";
 import { EarningCard } from "./EarningCard";
 import { TripEarnigsTable } from "./TripEarnigsTable";
 import { WithdrawHistoryTable } from "./WithdrawHistoryTable";
+import { Clock, DollarSign, Wallet } from "lucide-react";
+import { toast } from "sonner";
+
+const earningData = [
+    {
+      icon: <Wallet className="w-5 h-5 text-blue-600" />,
+      title: "Total Earnings",
+      money: "$140.40",
+      text: "All-time income from trips",
+    },
+    {
+      icon: <Clock className="w-5 h-5 text-yellow-500" />,
+      title: "Pending Earnings",
+      money: "$20.40",
+      text: "Earnings yet to be processed",
+    },
+    {
+      icon: <DollarSign className="w-5 h-5 text-green-600" />,
+      title: "Available Balance",
+      money: "$120.00",
+      text: "Ready for withdrawal",
+      actionText: "Withdraw Now",
+      onAction: () => toast.success("Withdrawn successfully!"),
+    },
+  ];
 
 export const Earnings = () => {
   return (
@@ -11,7 +36,7 @@ export const Earnings = () => {
           heading="My Earnings"
           subheading="Track how much you’ve earned from completed & manage your available balance."
         />
-        <EarningCard />
+        <EarningCard data={earningData}/>
       </div>
 
       {/* Earnings content can be added here */}
