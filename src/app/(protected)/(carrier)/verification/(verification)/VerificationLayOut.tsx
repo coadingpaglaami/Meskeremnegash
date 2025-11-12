@@ -198,6 +198,7 @@ const VerificationContext = createContext<VerificationContextType | undefined>(
   undefined
 );
 
+// ------------------- Hook -------------------
 export const useVerification = () => {
   const ctx = useContext(VerificationContext);
   if (!ctx)

@@ -1,29 +1,15 @@
 "use client";
-
-import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { getUserRole } from "@/lib/auth";
-import { senderLink, carrierLink, adminLink } from "@/lib/userData";
-import { Home, Package, MessageCircle } from "lucide-react";
+import { Home, ShieldBan } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 
-export const SideBaar = () => {
+export const AccountSidebaar = () => {
   const pathname = usePathname();
-  const role = getUserRole(); // e.g. 'admin', 'carrier', 'sender'
-
-  // Universal routes for sender & carrier
-  const commonLinks = [
-    { label: "Dashboard", href: "/dashboard", icon: Home },
-    { label: "Active Deliveries", href: "/active-deliveries", icon: Package },
-    { label: "Messages", href: "/messages", icon: MessageCircle },
+  const accountLink = [
+    { label: "Profile", href: "/profile", icon: Home },
+    { label: "Security", href: "/security", icon: ShieldBan },
   ];
-
-  // Decide link list based on role
-  const links =
-    role === "admin"
-      ? adminLink
-      : [...commonLinks, ...(role === "carrier" ? carrierLink : senderLink)];
-  console.log("Sidebar links for role:", role, links);
   return (
     <div className="flex flex-col h-full bg-white border-r py-6 px-4">
       {/* Logo Section */}
@@ -41,11 +27,10 @@ export const SideBaar = () => {
 
       {/* Navigation Links */}
       <nav className="flex flex-col gap-2">
-        {links.map((item) => {
+        {accountLink.map((item) => {
           const Icon = item.icon;
           const isActive =
-          role === 'carrier' ?
-            pathname === item.href || pathname.startsWith(`${item.href}/`):pathname === item.href;
+            pathname === item.href || pathname.startsWith(`${item.href}/`);
 
           return (
             <Link

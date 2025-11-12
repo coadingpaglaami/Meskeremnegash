@@ -1,6 +1,6 @@
 "use client";
 
-import { useReducer, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -43,7 +43,7 @@ export const SignIn = () => {
     }
 
     setUserRole(user.role);
-    router.push("/dashboard");
+    router.push(user.role === "admin" ? "/admin" : "/dashboard");
 
     toast.success(`Login successful! Role: ${user.role}`);
     // 🚀 Here you would redirect to protected dashboard or API call
@@ -53,7 +53,10 @@ export const SignIn = () => {
     <div className="flex flex-col items-center justify-center text-white w-full px-6">
       <h2 className="text-2xl font-semibold mb-8">Sign in</h2>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5 w-full max-w-md">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col gap-5 w-full max-w-md"
+      >
         {/* Email */}
         <div className="flex flex-col gap-2">
           <label htmlFor="email">Email</label>
@@ -89,7 +92,11 @@ export const SignIn = () => {
               onClick={() => setShowPassword((prev) => !prev)}
               className="text-gray-400 hover:text-white"
             >
-              {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+              {showPassword ? (
+                <EyeOff className="w-5 h-5" />
+              ) : (
+                <Eye className="w-5 h-5" />
+              )}
             </button>
           </div>
           {errors.password && (

@@ -9,10 +9,12 @@ import {
 import { Bell, User, Star } from "lucide-react";
 import Link from "next/link";
 import { removeUserRole } from "@/lib/auth";
+import { usePathname } from "next/navigation";
 
 export const NavBar = () => {
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const pathName = usePathname();
 
   const notifications = [
     {
@@ -48,39 +50,41 @@ export const NavBar = () => {
       {/* Right side */}
       <div className="flex items-center gap-6">
         {/* Notifications */}
-        <Popover open={notificationsOpen} onOpenChange={setNotificationsOpen}>
-          <PopoverTrigger asChild>
-            <button
-              className="relative text-gray-800"
-              onClick={() => {
-                setUserMenuOpen(false); // close user menu if open
-              }}
-            >
-              <Bell className="w-6 h-6" />
-              <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse"></span>
-            </button>
-          </PopoverTrigger>
+        {pathName !== "/profile" && pathName !== "/security" && (
+          <Popover open={notificationsOpen} onOpenChange={setNotificationsOpen}>
+            <PopoverTrigger asChild>
+              <button
+                className="relative text-gray-800"
+                onClick={() => {
+                  setUserMenuOpen(false); // close user menu if open
+                }}
+              >
+                <Bell className="w-6 h-6" />
+                <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse"></span>
+              </button>
+            </PopoverTrigger>
 
-          {notificationsOpen && (
-            <PopoverContent
-              className="w-80 p-4 mt-2 bg-white border border-gray-200 rounded-lg shadow-xl z-50"
-              align="end"
-            >
-              <h3 className="font-semibold text-gray-900 mb-2">
-                Notifications
-              </h3>
-              <div className="border-b border-gray-200 mb-2"></div>
-              <div className="flex flex-col gap-3 max-h-64 overflow-y-auto">
-                {notifications.map((n) => (
-                  <div key={n.id} className="flex items-center gap-3">
-                    {n.icon}
-                    <p className="text-gray-700 text-sm">{n.text}</p>
-                  </div>
-                ))}
-              </div>
-            </PopoverContent>
-          )}
-        </Popover>
+            {notificationsOpen && (
+              <PopoverContent
+                className="w-80 p-4 mt-2 bg-white border border-gray-200 rounded-lg shadow-xl z-50"
+                align="end"
+              >
+                <h3 className="font-semibold text-gray-900 mb-2">
+                  Notifications
+                </h3>
+                <div className="border-b border-gray-200 mb-2"></div>
+                <div className="flex flex-col gap-3 max-h-64 overflow-y-auto">
+                  {notifications.map((n) => (
+                    <div key={n.id} className="flex items-center gap-3">
+                      {n.icon}
+                      <p className="text-gray-700 text-sm">{n.text}</p>
+                    </div>
+                  ))}
+                </div>
+              </PopoverContent>
+            )}
+          </Popover>
+        )}
 
         {/* User menu */}
         <Popover open={userMenuOpen} onOpenChange={setUserMenuOpen}>
@@ -101,13 +105,14 @@ export const NavBar = () => {
             >
               <div className="flex flex-col gap-1">
                 <Link
-                  href="/profile"
+                  href="/profile" prefetch={false}
                   className="flex items-center gap-2 px-3 py-2 text-sm text-gray-800 hover:bg-gray-100 rounded-md"
                 >
                   <User className="w-4 h-4" /> Profile
                 </Link>
                 <button className="flex items-center gap-2 px-3 py-2 text-sm text-gray-800 hover:bg-gray-100 rounded-md w-full text-left">
-                  <User className="w-4 h-4" onClick={()=>removeUserRole()} /> Logout
+                  <User className="w-4 h-4" onClick={() => removeUserRole()} />{" "}
+                  Logout
                 </button>
               </div>
             </PopoverContent>

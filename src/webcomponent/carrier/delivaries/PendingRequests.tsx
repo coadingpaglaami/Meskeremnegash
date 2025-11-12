@@ -31,7 +31,7 @@ export const PendingRequests = () => {
   };
 
   return (
-    <div className="py-16 flex flex-col gap-6">
+    <div className="py-16 flex flex-col gap-6 md:px-6 px-4">
       <HeadingSection
         heading="Pending Requests"
         subheading="Review and manage all delivery requests waiting for your approval."

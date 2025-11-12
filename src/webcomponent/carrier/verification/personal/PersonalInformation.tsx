@@ -27,7 +27,7 @@ const personalSchema = z.object({
   fullName: z.string().min(1),
   dateOfBirth: z.date({ message: "Date of Birth required" }),
   nationality: z.string().min(1),
-  email: z.string().email(),
+  email: z.email(),
   nationalId: z.string().min(1, "National ID is required"),
 });
 
@@ -36,6 +36,8 @@ type PersonalFormValues = z.infer<typeof personalSchema>;
 const nationalities = ["Bangladeshi", "American", "Indian", "Other"];
 
 export const PersonalInformation = () => {
+  // const {setStepComplete} = useCntext(VerificationContext) 
+
   const { setStepComplete } = useVerification();
 
   const form = useForm<PersonalFormValues>({
@@ -105,7 +107,7 @@ export const PersonalInformation = () => {
                     mode="single"
                     selected={field.value}
                     onSelect={field.onChange}
-                    initialFocus
+                    autoFocus
                   />
                 </PopoverContent>
               </Popover>
