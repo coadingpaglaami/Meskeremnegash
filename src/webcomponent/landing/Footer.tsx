@@ -73,7 +73,7 @@ export const Footer = () => {
           </div>
 
           {/* Category 4: Contact */}
-          <div className="flex flex-col gap-4">
+          <div id="footer-contact" className="flex flex-col gap-4 scroll-mt-20">
             <h3 className="font-semibold text-lg">Contact</h3>
             <p
               onClick={() => {

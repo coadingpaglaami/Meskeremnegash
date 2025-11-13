@@ -15,14 +15,20 @@ export const Navbar = () => {
   const [open, setOpen] = useState(false);
 
   const handleScrollToContact = () => {
-    if (typeof window !== "undefined") {
-      const contactSection = document.getElementById("footer-contact");
-      if (contactSection) {
-        contactSection.scrollIntoView({ behavior: "smooth" });
-      }
+  if (typeof window !== "undefined") {
+    const section = document.getElementById("footer-contact");
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    } else {
+      // If footer not yet rendered (maybe lazy or below viewport)
+      setTimeout(() => {
+        const retrySection = document.getElementById("footer-contact");
+        if (retrySection) retrySection.scrollIntoView({ behavior: "smooth" });
+      }, 300);
     }
-    setOpen(false); // close menu after click
-  };
+  }
+  setOpen(false);
+};
 
   return (
     <nav className="fixed top-0 left-0 w-full z-40 h-20 backdrop-blur-[30px] bg-white/10 border-b border-white/10 font-montserrat">

@@ -82,4 +82,9 @@ export const adminLink = [
     href: "/admin/payments",
     icon: DollarSign, // 💰 payment management
   },
+  {
+    label: "TSA Records",
+    href: "/admin/tsa-records",
+    icon: History, // 🕓 TSA history
+  }
 ];

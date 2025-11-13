@@ -1,9 +1,10 @@
 
 export interface Payments{
+    paymentId: string;  // format Pay001
+    senderName: string;
     carrierName: string;
-    route : string; //format: Addis Ababa - Nairobi
-    date: string; // format 12-09-2025
-    status: "Active" | "Cancelled" | "Completed";
-    isCancellable: boolean;
-    onAction: (action: "cancel") => void;
-};
+    amount: number;
+    fee: number;
+    date: string; // format YYYY-MM-DD
+    status: 'Pending' | 'Completed';
+}

@@ -6,15 +6,16 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Bell, User, Star } from "lucide-react";
+import { Bell, User, Star, LayoutDashboard } from "lucide-react";
 import Link from "next/link";
-import { removeUserRole } from "@/lib/auth";
+import { getUserRole, removeUserRole } from "@/lib/auth";
 import { usePathname } from "next/navigation";
 
 export const NavBar = () => {
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const pathName = usePathname();
+  const role = getUserRole();
 
   const notifications = [
     {
@@ -105,10 +106,17 @@ export const NavBar = () => {
             >
               <div className="flex flex-col gap-1">
                 <Link
-                  href="/profile" prefetch={false}
+                  href="/profile"
+                  prefetch={false}
                   className="flex items-center gap-2 px-3 py-2 text-sm text-gray-800 hover:bg-gray-100 rounded-md"
                 >
                   <User className="w-4 h-4" /> Profile
+                </Link>
+                <Link
+                  href={role === "admin" ? "/admin" : "/dashboard"}
+                  className="flex items-center gap-2 px-3 py-2 text-sm text-gray-800 hover:bg-gray-100 rounded-md"
+                >
+                  <LayoutDashboard className="w-4 h-4" /> Dashboard
                 </Link>
                 <button className="flex items-center gap-2 px-3 py-2 text-sm text-gray-800 hover:bg-gray-100 rounded-md w-full text-left">
                   <User className="w-4 h-4" onClick={() => removeUserRole()} />{" "}
