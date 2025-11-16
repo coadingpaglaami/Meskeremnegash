@@ -65,7 +65,7 @@ export const ForgotPassword = () => {
 
   // ---------------------------- Timer for OTP ----------------------------
   useEffect(() => {
-    let interval: ReturnType<typeof setInterval>;
+    let interval: number;
     if (step === "verify" && timer > 0) {
       interval = window.setInterval(() => setTimer((t) => t - 1), 1000);
     } else if (timer === 0) {
@@ -109,12 +109,17 @@ export const ForgotPassword = () => {
     <div className="flex flex-col gap-6 w-full max-w-md mx-auto text-white">
       {step === "forgot" && (
         <>
-          <h2 className="text-2xl font-semibold text-center">Forgot Password</h2>
+          <h2 className="text-2xl font-semibold text-center">
+            Forgot Password
+          </h2>
           <p className="text-gray-300 text-center mb-4">
             Enter your email address
           </p>
 
-          <form onSubmit={handleSubmitEmail(onSubmitEmail)} className="flex flex-col gap-4">
+          <form
+            onSubmit={handleSubmitEmail(onSubmitEmail)}
+            className="flex flex-col gap-4"
+          >
             <div className="flex flex-col gap-2">
               <label htmlFor="email">Email</label>
               <div className="flex items-center gap-2 border border-gray-400 rounded-lg px-3 py-2">
@@ -128,7 +133,9 @@ export const ForgotPassword = () => {
                 />
               </div>
               {errorsEmail.email && (
-                <p className="text-red-400 text-sm">{errorsEmail.email.message}</p>
+                <p className="text-red-400 text-sm">
+                  {errorsEmail.email.message}
+                </p>
               )}
             </div>
 
@@ -136,7 +143,9 @@ export const ForgotPassword = () => {
               type="submit"
               disabled={!watchEmail("email")}
               className={`mt-2 px-4 py-2 rounded-lg ${
-                watchEmail("email") ? "bg-primary text-white" : "bg-gray-500 text-gray-200 cursor-not-allowed"
+                watchEmail("email")
+                  ? "bg-primary text-white"
+                  : "bg-gray-500 text-gray-200 cursor-not-allowed"
               }`}
             >
               Continue
@@ -149,7 +158,8 @@ export const ForgotPassword = () => {
         <>
           <h2 className="text-2xl font-semibold text-center">Verify OTP</h2>
           <p className="text-gray-300 text-center">
-            We sent a 6-digit code to <br /> <span className="font-semibold">{email}</span>
+            We sent a 6-digit code to <br />{" "}
+            <span className="font-semibold">{email}</span>
           </p>
 
           <div className="flex justify-between mt-4">
@@ -164,7 +174,8 @@ export const ForgotPassword = () => {
                   const newOtp = [...otp];
                   newOtp[i] = val;
                   setOtp(newOtp);
-                  if (val && otpRefs.current[i + 1]) otpRefs.current[i + 1]?.focus();
+                  if (val && otpRefs.current[i + 1])
+                    otpRefs.current[i + 1]?.focus();
                 }}
                 ref={(el: HTMLInputElement | null) => {
                   otpRefs.current[i] = el;
@@ -178,7 +189,9 @@ export const ForgotPassword = () => {
             onClick={onSubmitOTP}
             disabled={otp.some((d) => d === "")}
             className={`mt-4 px-4 py-2 rounded-lg ${
-              otp.some((d) => d === "") ? "bg-gray-500 text-gray-200 cursor-not-allowed" : "bg-primary text-white"
+              otp.some((d) => d === "")
+                ? "bg-gray-500 text-gray-200 cursor-not-allowed"
+                : "bg-primary text-white"
             }`}
           >
             Continue
@@ -191,16 +204,23 @@ export const ForgotPassword = () => {
               canResend ? "text-white" : "text-gray-400 pointer-events-none"
             }`}
           >
-            {canResend ? "Resend Code" : `Resend in 00:${timer.toString().padStart(2, "0")}`}
+            {canResend
+              ? "Resend Code"
+              : `Resend in 00:${timer.toString().padStart(2, "0")}`}
           </button>
         </>
       )}
 
       {step === "reset" && (
         <>
-          <h2 className="text-2xl font-semibold text-center">Create New Password</h2>
+          <h2 className="text-2xl font-semibold text-center">
+            Create New Password
+          </h2>
 
-          <form onSubmit={handleSubmitReset(onSubmitReset)} className="flex flex-col gap-4">
+          <form
+            onSubmit={handleSubmitReset(onSubmitReset)}
+            className="flex flex-col gap-4"
+          >
             {/* New Password */}
             <div className="flex flex-col gap-2 relative">
               <label htmlFor="password">New Password</label>
@@ -218,11 +238,17 @@ export const ForgotPassword = () => {
                   onClick={() => setShowPassword((prev) => !prev)}
                   className="text-gray-400 hover:text-white"
                 >
-                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  {showPassword ? (
+                    <EyeOff className="w-5 h-5" />
+                  ) : (
+                    <Eye className="w-5 h-5" />
+                  )}
                 </button>
               </div>
               {errorsReset.password && (
-                <p className="text-red-400 text-sm">{errorsReset.password.message}</p>
+                <p className="text-red-400 text-sm">
+                  {errorsReset.password.message}
+                </p>
               )}
             </div>
 
@@ -243,17 +269,25 @@ export const ForgotPassword = () => {
                   onClick={() => setShowConfirm((prev) => !prev)}
                   className="text-gray-400 hover:text-white"
                 >
-                  {showConfirm ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  {showConfirm ? (
+                    <EyeOff className="w-5 h-5" />
+                  ) : (
+                    <Eye className="w-5 h-5" />
+                  )}
                 </button>
               </div>
               {errorsReset.confirmPassword && (
-                <p className="text-red-400 text-sm">{errorsReset.confirmPassword.message}</p>
+                <p className="text-red-400 text-sm">
+                  {errorsReset.confirmPassword.message}
+                </p>
               )}
             </div>
 
             <button
               type="submit"
-              disabled={!watchReset("password") || !watchReset("confirmPassword")}
+              disabled={
+                !watchReset("password") || !watchReset("confirmPassword")
+              }
               className={`mt-4 px-4 py-2 rounded-lg ${
                 watchReset("password") && watchReset("confirmPassword")
                   ? "bg-primary text-white"
